@@ -1,26 +1,63 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <div class="header">
+      <div class="container">
+        <div class="logo">ToDo List</div>
+        <div class="form">
+          <input type="text" v-model="text" @keyup.enter="enterClicked()" />
+          <button class="btn" @click="addTodo()">Add a new task</button>
+        </div>
+      </div>
+    </div>
+    <ToDo :todos="todos" @delTodo="removeTodo" />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import ToDo from "./components/ToDo";
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    ToDo,
+  },
+  data() {
+    return {
+      todos: [],
+      text: "",
+      id: 0,
+    };
+  },
+  methods: {
+    addTodo() {
+      if (this.text === "") {
+        return;
+      } else {
+        this.todos.push({
+          text: this.text,
+          id: this.id,
+        });
+        this.id += 1;
+      }
+    },
+    enterClicked() {
+      if (this.text === "") {
+        return;
+      } else {
+        this.todos.push({
+          text: this.text,
+          id: this.id,
+        });
+        this.id += 1;
+        this.text = "";
+      }
+    },
+    removeTodo(data) {
+      this.todos.splice(data, 1);
+    },
+  },
+  computed: {},
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
